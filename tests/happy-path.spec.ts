@@ -29,6 +29,9 @@ test.describe('Registration — happy path', () => {
     // of toBeOK() which only works with the APIResponse type from request fixture.
     // Exact status TBD once BUG-030 is fixed and we can observe a real submission.
     expect(response.ok()).toBe(true);
+    // TODO: assert post-registration UI state once BUG-030 is resolved.
+    // Expected: redirect to /dashboard or a "check your email" confirmation screen.
+    // Tracked in: BUG-030
   });
 
 });

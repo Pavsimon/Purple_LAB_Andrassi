@@ -140,7 +140,7 @@ const INVALID_PASSWORD_INPUTS = [
 const VALID_PASSWORD_INPUTS = [
   { input: 'abcde1',    note: 'exactly 6 characters — minimum'    },
   { input: 'TestPass1', note: 'standard strong password'           },
-  { input: 'Test 1',    note: 'space in the middle — allowed'      }, //is this even valid requierement ? 
+  { input: 'Test 1',    note: 'space in the middle — allowed'      },
 ] as const;
 
 test.describe('Password field validation', () => {

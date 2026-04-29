@@ -108,10 +108,12 @@ export class RegisterPage extends BasePage {
   }
 
   get firstNameError(): Locator {
+    // Scope to the nearest ancestor div that owns a data-testid (the field wrapper),
+    // then target the error span — the only span without data-testid inside it.
+    // Same pattern as passwordError. Robust to DOM depth changes.
     return this.firstNameInput
-      .locator('../..')        // two levels up to the field wrapper div
-      .locator('div').last()   // the error container (sibling of input wrapper)
-      .locator('span').last(); // the error text (sibling of icon span)
+      .locator('xpath=ancestor::div[@data-testid][1]')
+      .locator('span:not([data-testid])');
   }
 
   // --- Last name ---
@@ -126,9 +128,8 @@ export class RegisterPage extends BasePage {
 
   get lastNameError(): Locator {
     return this.lastNameInput
-      .locator('../..')
-      .locator('div').last()
-      .locator('span').last();
+      .locator('xpath=ancestor::div[@data-testid][1]')
+      .locator('span:not([data-testid])');
   }
 
   // --- Email ---
@@ -143,9 +144,8 @@ export class RegisterPage extends BasePage {
 
   get emailError(): Locator {
     return this.emailInput
-      .locator('../..')
-      .locator('div').last()
-      .locator('span').last();
+      .locator('xpath=ancestor::div[@data-testid][1]')
+      .locator('span:not([data-testid])');
   }
 
   // --- Password ---
