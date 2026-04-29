@@ -1,0 +1,12 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+.playwright-mcp/
+*.png
+*.jpg
+*.jpeg
+
+# Environment — never commit real URLs or credentials
+.env
+# .env.example is committed as a template for new contributors

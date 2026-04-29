@@ -1,0 +1,178 @@
+import { Page, Locator } from '@playwright/test';
+import { BasePage } from './BasePage';
+
+export class RegisterPage extends BasePage {
+
+  constructor(page: Page) {
+    super(page);
+  }
+
+  // --- Navigation ---
+  async goto() {
+    await super.goto('/register');
+    // domcontentloaded fires when the HTML skeleton arrives — for a React SPA
+    // the <div id="root"> is still empty at that point. Waiting for the submit
+    // button proves React has hydrated and the form is ready to interact with.
+    await this.page.getByTestId('Button').waitFor();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private getters — one per element, defined only when a test needs it.
+  // Add a new getter here when you add a new test that needs a new element.
+  // NOTE BUG-023: getByLabel('First name') targets the correct visible label,
+  // making tests immune to the underlying data-testid swap in the DOM.
+  // ---------------------------------------------------------------------------
+
+  // Public — tests assert emptiness and visibility directly on these locators.
+  // Write operations always go through the action methods below (enterFirstName
+  // etc.) so the fill('') clear step is never forgotten.
+  get firstNameInput(): Locator {
+    return this.page.getByLabel('First name');
+  }
+
+  get lastNameInput(): Locator {
+    return this.page.getByLabel('Last name');
+  }
+
+  get emailInput(): Locator {
+    return this.page.getByLabel('E-mail');
+  }
+
+  get passwordInput(): Locator {
+    return this.page.getByLabel('Password');
+  }
+
+  get countryField(): Locator {
+    return this.page.getByTestId('country');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Initial-state locators — used by smoke tests to assert the form loads
+  // correctly before the user interacts with anything.
+  // ---------------------------------------------------------------------------
+
+  // The hidden radio input inside the Individual tab — checked = tab is active
+  get individualTab(): Locator {
+    return this.page.getByTestId('individualTab').locator('input[type="radio"]');
+  }
+
+  // The main submit button (data-testid="Button", disabled until form is valid)
+  get submitButton(): Locator {
+    return this.page.getByTestId('Button');
+  }
+
+  // "I have an affiliate code" checkbox
+  get affiliateCheckbox(): Locator {
+    return this.page.getByLabel(/I have an affiliate code/i);
+  }
+
+  // "I agree with Terms and Conditions" checkbox
+  get tcCheckbox(): Locator {
+    return this.page.getByLabel(/I agree with Terms and Conditions/i);
+  }
+
+  // The notice box that appears below the country field after a valid country
+  // is selected (data-testid="Notice" confirmed by DOM inspection)
+  get countryNotice(): Locator {
+    return this.page.getByTestId('Notice');
+  }
+
+  // The "Terms and Conditions" hyperlink scoped to the country notice only
+  // (there is a second T&C link in the footer — this targets the correct one)
+  get noticeTermsLink(): Locator {
+    return this.countryNotice.getByRole('link', { name: 'Terms and Conditions' });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Public methods — actions and assertions the tests call directly.
+  // Tests never interact with locators — they call methods.
+  // ---------------------------------------------------------------------------
+
+  // --- Country ---
+  async selectCountry(country: string) {
+    // React Select: click the wrapper to open the menu, then fill the hidden
+    // input (opacity:0) to filter options.
+    await this.countryField.click();
+    await this.countryField.locator('input').first().fill(country);
+    await this.page.getByRole('option', { name: country }).click();
+  }
+
+  // --- First name ---
+  async enterFirstName(value: string) {
+    await this.firstNameInput.fill('');
+    await this.firstNameInput.fill(value);
+  }
+
+  async blurFirstName() {
+    await this.firstNameInput.blur();
+  }
+
+  get firstNameError(): Locator {
+    return this.firstNameInput
+      .locator('../..')        // two levels up to the field wrapper div
+      .locator('div').last()   // the error container (sibling of input wrapper)
+      .locator('span').last(); // the error text (sibling of icon span)
+  }
+
+  // --- Last name ---
+  async enterLastName(value: string) {
+    await this.lastNameInput.fill('');
+    await this.lastNameInput.fill(value);
+  }
+
+  async blurLastName() {
+    await this.lastNameInput.blur();
+  }
+
+  get lastNameError(): Locator {
+    return this.lastNameInput
+      .locator('../..')
+      .locator('div').last()
+      .locator('span').last();
+  }
+
+  // --- Email ---
+  async enterEmail(value: string) {
+    await this.emailInput.fill('');
+    await this.emailInput.fill(value);
+  }
+
+  async blurEmail() {
+    await this.emailInput.blur();
+  }
+
+  get emailError(): Locator {
+    return this.emailInput
+      .locator('../..')
+      .locator('div').last()
+      .locator('span').last();
+  }
+
+  // --- Password ---
+  async enterPassword(value: string) {
+    await this.passwordInput.fill('');
+    await this.passwordInput.fill(value);
+  }
+
+  async blurPassword() {
+    await this.passwordInput.blur();
+  }
+
+  get passwordError(): Locator {
+    // Password field has two Icon spans (show/hide toggle) with data-testid="Icon".
+    // The error text span has no data-testid — this selector targets it exclusively.
+    return this.page.getByTestId('password').locator('span:not([data-testid])');
+  }
+
+  // --- Terms and Conditions ---
+  // force: true bypasses Playwright's actionability checks — used to work around
+  // BUG-030 where the label intercepts pointer events on the checkbox.
+  async acceptTerms({ force = false }: { force?: boolean } = {}) {
+    await this.tcCheckbox.check({ force });
+  }
+
+  // --- Submit ---
+  async clickSubmit() {
+    await this.submitButton.click();
+  }
+}

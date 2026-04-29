@@ -1,0 +1,19 @@
+{
+  "name": "purple-lab-qa",
+  "version": "1.0.0",
+  "description": "QA automation suite for Purple Lab trading account registration form",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:compliance": "playwright test --grep @compliance",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.6.0",
+    "typescript": "^5.8.0"
+  }
+}
