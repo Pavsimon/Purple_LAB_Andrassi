@@ -3,7 +3,7 @@ import { generateUser } from '../fixtures';
 
 // Maps 1:1 to the Scenario in 01_registration_happy_path.feature
 // Tagged @known-bug in the feature file — BUG-030 currently blocks submission.
-// This test is EXPECTED TO FAIL until BUG-030 is fixed.
+// This test is EXPECTED TO FAIL until BUG-030 is fixed
 
 test.describe('Registration — happy path @regression', () => {
 
