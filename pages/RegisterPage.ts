@@ -19,7 +19,7 @@ export class RegisterPage extends BasePage {
   }
 
   // ---------------------------------------------------------------------------
-  // Private getters — one per element, defined only when a test needs it.
+  // Locator getters — one per element, defined only when a test needs it.
   // Add a new getter here when you add a new test that needs a new element.
   // NOTE BUG-023: getByLabel('First name') targets the correct visible label,
   // making tests immune to the underlying data-testid swap in the DOM.

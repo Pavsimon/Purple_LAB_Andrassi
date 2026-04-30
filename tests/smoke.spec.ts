@@ -1,7 +1,6 @@
 import { test, expect } from '../fixtures';
 
-// Maps 1:1 to the Scenario in 01_registration_happy_path.feature:
-// "Registration form loads with correct initial state"
+// Maps 1:1 to the Scenario in 00_smoke.feature
 test.describe('Registration form — initial state', () => {
 
   test('form loads with correct initial state', async ({ registerPage }) => {
