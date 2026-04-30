@@ -16,6 +16,7 @@ test.describe('Navigation links @regression', () => {
 
     // The link has target="_blank" — arm the new-tab listener BEFORE clicking,
     // otherwise the event fires before waitForEvent() is registered.
+    // Use Promise.all to avoid a race condition between registering the event listener and clicking the link.
     const [newPage] = await Promise.all([
       page.context().waitForEvent('page'),
       registerPage.noticeTermsLink.click(),
@@ -23,8 +24,7 @@ test.describe('Navigation links @regression', () => {
 
     await newPage.waitForLoadState();
 
-    // Assert the new tab landed on the correct legal document, not a placeholder
-    expect(newPage.url()).toBe(CORRECT_TC_URL);
+    expect(newPage.url()).toEqual(CORRECT_TC_URL);
   });
 
 });

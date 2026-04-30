@@ -3,7 +3,7 @@ import { generateUser } from '../fixtures';
 
 // Maps 1:1 to the Scenario in 01_registration_happy_path.feature
 // Tagged @known-bug in the feature file — BUG-030 currently blocks submission.
-// This test is EXPECTED TO FAIL until BUG-030 is fixed.
+// This test is EXPECTED TO FAIL until BUG-030 is fixed
 
 test.describe('Registration — happy path @regression', () => {
 
@@ -21,7 +21,10 @@ test.describe('Registration — happy path @regression', () => {
     // the response could arrive before waitForResponse is registered (race condition).
     // Promise.all starts both simultaneously, so nothing is missed.
     const [response] = await Promise.all([
-      page.waitForResponse(res => res.request().method() === 'POST'),
+      page.waitForResponse(res =>
+        res.request().method() === 'POST' &&
+        res.url().includes('/api/register') // Adjust the path as needed for your registration endpoint
+      ),
       registerPage.clickSubmit(),
     ]);
 

@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures';
+import type { ConsoleMessage } from '@playwright/test';
 
 // Maps 1:1 to the Scenario in 04_security.feature
 // Tagged @known-bug — EXPECTED TO FAIL until BUG-032 is fixed.
@@ -18,14 +19,19 @@ test.describe('Registration form security @regression', () => {
     // Arm the listener BEFORE interacting with the page so no message is missed.
     // We collect all console output (log, warn, error, info, debug) because a
     // password leak can appear in any channel — not just console.log.
-    page.on('console', msg => {
+    const onConsole = (msg: ConsoleMessage) => {
       consoleMessages.push(msg.text());
-    });
+    };
+    page.on('console', onConsole);
 
     await registerPage.enterPassword(TEST_PASSWORD);
 
     // Blur triggers validation — also exercises any "on-change" logging paths.
     await registerPage.blurPassword();
+
+    // Remove the listener — page is torn down after the test anyway but
+    // explicit cleanup is good practice.
+    page.off('console', onConsole);
 
     // Fail fast if the password literal appears in any console message.
     const leaked = consoleMessages.filter(msg => msg.includes(TEST_PASSWORD));
