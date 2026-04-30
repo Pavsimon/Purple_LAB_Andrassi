@@ -7,7 +7,7 @@ import { generateUser } from '../fixtures';
 
 test.describe('Registration — happy path', () => {
 
-  test('successful registration with valid data from a non-restricted country', async ({ registerPage, page }, testInfo) => {
+  test('successful registration with valid data from a non-restricted country @known-bug', async ({ registerPage, page }, testInfo) => {
     const user = generateUser(testInfo.workerIndex);
 
     await registerPage.enterFirstName(user.firstName);

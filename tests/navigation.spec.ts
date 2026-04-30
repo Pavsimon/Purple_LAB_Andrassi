@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures';
 
-// Maps 1:1 to the Scenario in 06_navigation.feature
+// Maps 1:1 to the Scenario in 05_navigation.feature
 // Tagged @known-bug — this test is EXPECTED TO FAIL until BUG-031 is fixed.
 // Actual href: https://http.dog/200.jpg  (placeholder image)
 // Expected href: https://www.axiory.com/Axiory/media/assets/doc/Tradit_Terms-Conditions.pdf
@@ -10,7 +10,7 @@ const CORRECT_TC_URL =
 
 test.describe('Navigation links', () => {
 
-  test('Country notice T&C link opens the correct legal document [BUG-031]', async ({ registerPage, page }) => {
+  test('Country notice T&C link opens the correct legal document [BUG-031] @known-bug', async ({ registerPage, page }) => {
     await registerPage.selectCountry('Japan');
     await expect(registerPage.countryNotice).toBeVisible();
 

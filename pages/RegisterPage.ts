@@ -11,9 +11,11 @@ export class RegisterPage extends BasePage {
   async goto() {
     await super.goto('/register');
     // domcontentloaded fires when the HTML skeleton arrives — for a React SPA
-    // the <div id="root"> is still empty at that point. Waiting for the submit
-    // button proves React has hydrated and the form is ready to interact with.
-    await this.page.getByTestId('Button').waitFor();
+    // the <div id="root"> is still empty at that point. Waiting for the First
+    // name label proves React has hydrated and the form is ready to interact
+    // with. Avoids the strict mode violation caused by duplicate data-testid="Button"
+    // in the mobile DOM (see README — known mobile bug).
+    await this.page.getByLabel('First name').waitFor();
   }
 
   // ---------------------------------------------------------------------------
@@ -56,9 +58,12 @@ export class RegisterPage extends BasePage {
     return this.page.getByTestId('individualTab').locator('input[type="radio"]');
   }
 
-  // The main submit button (data-testid="Button", disabled until form is valid)
+  // The main submit button (data-testid="Button", type="submit").
+  // The mobile DOM contains a duplicate data-testid="Button" (type="button") which
+  // causes strict mode violations when using getByTestId alone. Filtering by
+  // type="submit" targets the real submit button on all viewports.
   get submitButton(): Locator {
-    return this.page.getByTestId('Button');
+    return this.page.locator('[data-testid="Button"][type="submit"]');
   }
 
   // "I have an affiliate code" checkbox

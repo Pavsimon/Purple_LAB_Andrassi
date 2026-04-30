@@ -1,0 +1,20 @@
+{
+  "agent": "agent-name",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "url": "https://my-qbgzo-qacs4.vgabriel.personal.purple-lab.dev/register",
+  "findings": [
+    {
+      "severity": "P0 | Critical | High | Medium | Low | Observation",
+      "title": "Short description of the issue",
+      "element": "Affected selector, field name, or URL",
+      "steps": [
+        "Step 1",
+        "Step 2",
+        "Step 3"
+      ],
+      "expected": "What should happen",
+      "actual": "What actually happens",
+      "evidence": "Console output, visible text, URL, or description of what was observed"
+    }
+  ]
+}

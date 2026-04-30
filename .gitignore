@@ -10,3 +10,4 @@ test-results/
 # Environment — never commit real URLs or credentials
 .env
 # .env.example is committed as a template for new contributors
+results/

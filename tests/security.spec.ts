@@ -13,7 +13,7 @@ const TEST_PASSWORD = 'TestPass1';
 
 test.describe('Registration form security', () => {
 
-  test('password value is never exposed in the browser console', async ({ registerPage, page }) => {
+  test('password value is never exposed in the browser console @known-bug', async ({ registerPage, page }) => {
     const consoleMessages: string[] = [];
 
     // Arm the listener BEFORE interacting with the page so no message is missed.
