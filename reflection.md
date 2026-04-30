@@ -47,6 +47,18 @@ It works. It also runs slowly, consumes a significant number of tokens, and does
 
 I am slightly annoyed I did not build it at the start of the process rather than the end. That is also noted in the automation vision document, honestly.
 
+## What I would do with more time
+
+The honest answer is not "more of everything." It is specific things that would have changed the quality of the work, not just the volume of it.
+
+The biggest gap is that I never submitted the form. The T&C checkbox cannot be checked through normal interaction, which means the happy path test cannot complete, no real POST request was ever observed, and I do not know what a successful registration actually looks like on the other side. With more time I would have tried to find any combination that allows a real submission — force-checking via JavaScript, intercepting the network layer directly, or testing against a different environment if one was available. Understanding the full flow from submission to confirmation is the most important thing missing from this work.
+
+The compliance and legal layer is the second gap. I understood enough to identify that the EU/EEA blocking is informational only and that FATF blacklisted countries are not restricted. But I did not understand the business consequence of those failures at the level I would want to. Knowing what the actual regulatory exposure is, what the Axiory Global versus Tradit Ltd entity split means in practice, and whether the country notice content is legally accurate rather than just technically present — that context would have changed how I framed several findings and probably surfaced issues I did not know to look for.
+
+The agentic pipeline would have been built at the start, not added at the end. Running it in CI on every deploy, with cost controls and parallel execution, is the version that actually demonstrates the concept rather than just proves it can work once.
+
+Everything else — more scenarios, more viewports, more test files — is volume. The missing submission flow and the shallow compliance understanding are the actual gaps. More coverage without fixing those would just be more tests around a hole.
+
 ## On AI collaboration overall
 
 The pattern across the whole project was: I consulted AI, I reviewed what came back, I made a decision, I moved forward. That was true for the battle plan, the prompt structure, the Gherkin scenarios, the spec implementation, the agent pipeline.
