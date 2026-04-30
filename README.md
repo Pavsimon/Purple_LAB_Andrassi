@@ -5,6 +5,8 @@ End-to-end test suite for a trading account registration form built with Playwri
 **Application under test:**
 `https://my-qbgzo-qacs4.vgabriel.personal.purple-lab.dev/register`
 
+**CI status:** [Latest Actions run](https://github.com/Pavsimon/Purple_LAB_Andrassi/actions) — [![CI](https://github.com/Pavsimon/Purple_LAB_Andrassi/actions/workflows/ci.yml/badge.svg)](https://github.com/Pavsimon/Purple_LAB_Andrassi/actions/workflows/ci.yml)
+
 ---
 
 ## What this suite covers
