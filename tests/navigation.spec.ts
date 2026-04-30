@@ -8,7 +8,7 @@ import { test, expect } from '../fixtures';
 const CORRECT_TC_URL =
   'https://www.axiory.com/Axiory/media/assets/doc/Tradit_Terms-Conditions.pdf';
 
-test.describe('Navigation links', () => {
+test.describe('Navigation links @regression', () => {
 
   test('Country notice T&C link opens the correct legal document [BUG-031] @known-bug', async ({ registerPage, page }) => {
     await registerPage.selectCountry('Japan');

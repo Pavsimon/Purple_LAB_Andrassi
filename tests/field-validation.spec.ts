@@ -49,7 +49,7 @@ const VALID_EMAIL_INPUTS = [
   { input: 'j@example.co.uk',       note: 'short local part, two-part TLD' },
 ] as const;
 
-test.describe('First name field validation', () => {
+test.describe('First name field validation @regression', () => {
 
   test.describe('invalid inputs', () => {
     for (const { input, expectedError, note } of INVALID_FIRST_NAME_INPUTS) {
@@ -75,7 +75,7 @@ test.describe('First name field validation', () => {
 
 });
 
-test.describe('Last name field validation', () => {
+test.describe('Last name field validation @regression', () => {
 
   test.describe('invalid inputs', () => {
     for (const { input, expectedError, note } of INVALID_LAST_NAME_INPUTS) {
@@ -101,7 +101,7 @@ test.describe('Last name field validation', () => {
 
 });
 
-test.describe('Email field validation', () => {
+test.describe('Email field validation @regression', () => {
 
   test.describe('invalid inputs', () => {
     for (const { input, expectedError, note } of INVALID_EMAIL_INPUTS) {
@@ -143,7 +143,7 @@ const VALID_PASSWORD_INPUTS = [
   { input: 'Test 1',    note: 'space in the middle — allowed'      },
 ] as const;
 
-test.describe('Password field validation', () => {
+test.describe('Password field validation @regression', () => {
 
   test.describe('invalid inputs', () => {
     for (const { input, expectedError, note } of INVALID_PASSWORD_INPUTS) {

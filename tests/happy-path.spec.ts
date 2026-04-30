@@ -5,7 +5,7 @@ import { generateUser } from '../fixtures';
 // Tagged @known-bug in the feature file — BUG-030 currently blocks submission.
 // This test is EXPECTED TO FAIL until BUG-030 is fixed.
 
-test.describe('Registration — happy path', () => {
+test.describe('Registration — happy path @regression', () => {
 
   test('successful registration with valid data from a non-restricted country @known-bug', async ({ registerPage, page }, testInfo) => {
     const user = generateUser(testInfo.workerIndex);

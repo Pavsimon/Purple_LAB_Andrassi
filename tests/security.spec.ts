@@ -10,7 +10,7 @@ import { test, expect } from '../fixtures';
 // for that exact string — an abstract placeholder would make the test untestable.
 const TEST_PASSWORD = 'TestPass1';
 
-test.describe('Registration form security', () => {
+test.describe('Registration form security @regression', () => {
 
   test('password value is never exposed in the browser console @known-bug', async ({ registerPage, page }) => {
     const consoleMessages: string[] = [];
