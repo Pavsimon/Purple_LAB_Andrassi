@@ -3,14 +3,20 @@ import { test, expect } from '../fixtures';
 // Maps 1:1 to the Scenario Outlines in 02_field_validation.feature
 // Each entry = one row in the Examples table
 
-// Extracted to avoid repeating the full string 5 times
+// Error message constants — extracted so a wording change in the app requires
+// updating one line here rather than hunting through every test array.
 const PASSWORD_ERROR = 'Invalid password format. Please use at least 6 characters and avoid starting or ending with a space.';
+const REQUIRED_ERROR = 'Required';
+const INVALID_EMAIL_ERROR = 'Invalid email address';
+const UNSUPPORTED_CHAR_ERROR = 'Unsupported characters used';
+const NUMBERS_NOT_ALLOWED_ERROR = 'Numbers are not allowed in this field';
+
 const INVALID_FIRST_NAME_INPUTS = [
-  { input: '',         expectedError: 'Required',                              note: 'empty field'              },
-  { input: '   ',      expectedError: 'Required',                              note: 'spaces only'              },
-  { input: 'John123',  expectedError: 'Numbers are not allowed in this field', note: 'name with digits'         },
-  { input: 'John@Doe', expectedError: 'Unsupported characters used',           note: 'name with special char'   },
-  { input: 'John#Doe', expectedError: 'Unsupported characters used',           note: 'name with hash character' },
+  { input: '',         expectedError: REQUIRED_ERROR,                              note: 'empty field'              },
+  { input: '   ',      expectedError: REQUIRED_ERROR,                              note: 'spaces only'              },
+  { input: 'John123',  expectedError: NUMBERS_NOT_ALLOWED_ERROR,                   note: 'name with digits'         },
+  { input: 'John@Doe', expectedError: UNSUPPORTED_CHAR_ERROR,                      note: 'name with special char'   },
+  { input: 'John#Doe', expectedError: UNSUPPORTED_CHAR_ERROR,                      note: 'name with hash character' },
 ] as const;
 
 const VALID_FIRST_NAME_INPUTS = [
@@ -21,10 +27,10 @@ const VALID_FIRST_NAME_INPUTS = [
 ] as const;
 
 const INVALID_LAST_NAME_INPUTS = [
-  { input: '',        expectedError: 'Required',                              note: 'empty field'              },
-  { input: '   ',     expectedError: 'Required',                              note: 'spaces only'              },
-  { input: 'Doe123',  expectedError: 'Numbers are not allowed in this field', note: 'name with digits'         },
-  { input: 'Doe@Bar', expectedError: 'Unsupported characters used',           note: 'name with special char'   },
+  { input: '',        expectedError: REQUIRED_ERROR,                              note: 'empty field'              },
+  { input: '   ',     expectedError: REQUIRED_ERROR,                              note: 'spaces only'              },
+  { input: 'Doe123',  expectedError: NUMBERS_NOT_ALLOWED_ERROR,                   note: 'name with digits'         },
+  { input: 'Doe@Bar', expectedError: UNSUPPORTED_CHAR_ERROR,                      note: 'name with special char'   },
 ] as const;
 
 const VALID_LAST_NAME_INPUTS = [
@@ -35,11 +41,11 @@ const VALID_LAST_NAME_INPUTS = [
 ] as const;
 
 const INVALID_EMAIL_INPUTS = [
-  { input: '',              expectedError: 'Required',              note: 'empty field'                 },
-  { input: 'notanemail',    expectedError: 'Invalid email address', note: 'missing @ and domain'        },
-  { input: 'missing@',      expectedError: 'Invalid email address', note: 'missing domain after @'      },
-  { input: '@nodomain.com', expectedError: 'Invalid email address', note: 'missing local part before @' },
-  { input: 'two@@dom.com',  expectedError: 'Invalid email address', note: 'double @ symbol'             },
+  { input: '',              expectedError: REQUIRED_ERROR,         note: 'empty field'                 },
+  { input: 'notanemail',    expectedError: INVALID_EMAIL_ERROR,    note: 'missing @ and domain'        },
+  { input: 'missing@',      expectedError: INVALID_EMAIL_ERROR,    note: 'missing domain after @'      },
+  { input: '@nodomain.com', expectedError: INVALID_EMAIL_ERROR,    note: 'missing local part before @' },
+  { input: 'two@@dom.com',  expectedError: INVALID_EMAIL_ERROR,    note: 'double @ symbol'             },
 ] as const;
 
 const VALID_EMAIL_INPUTS = [

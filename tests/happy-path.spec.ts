@@ -21,7 +21,10 @@ test.describe('Registration — happy path @regression', () => {
     // the response could arrive before waitForResponse is registered (race condition).
     // Promise.all starts both simultaneously, so nothing is missed.
     const [response] = await Promise.all([
-      page.waitForResponse(res => res.request().method() === 'POST'),
+      page.waitForResponse(res =>
+        res.request().method() === 'POST' &&
+        res.url().includes('/api/register') // Adjust the path as needed for your registration endpoint
+      ),
       registerPage.clickSubmit(),
     ]);
 
