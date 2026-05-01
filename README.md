@@ -47,7 +47,7 @@ Compliance testing (EU/EEA blocking, FATF blacklist, country notices) is covered
 npm install
 
 # Install Playwright browsers
-npx playwright install chromium
+npx playwright install chromium webkit
 ```
 
 **Environment:** tests run against the staging URL by default.
