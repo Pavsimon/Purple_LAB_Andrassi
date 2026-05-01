@@ -8,7 +8,7 @@ What follows from acceptance is a question: if the agent runs the regression, wh
 
 ## The split I found in practice
 
-I've been building an agentic pipeline for QA as part of this project, a multi-agent bug hunt that runs five specialist agents in sequence and synthesises findings into a structured report. The pipeline works. It finds real defects: passwords logged to the browser console on every keystroke, legal documents pointing to meme images, a form that can never be submitted. What it doesn't do is understand why any of that matters.
+I've been building an agentic pipeline for QA as part of this project, a multi-agent bug hunt that runs five specialist agents in parallel and synthesises findings into a structured report. The pipeline works. It finds real defects: passwords logged to the browser console on every keystroke, legal documents pointing to meme images, a form that can never be submitted. What it doesn't do is understand why any of that matters.
 
 It doesn't know that a broken T&C link in a regulated trading product isn't a Medium UX issue, it's a compliance exposure. It doesn't know that a form you can't submit is a complete revenue block, not a functional bug. It found the evidence. I had to bring the business context.
 

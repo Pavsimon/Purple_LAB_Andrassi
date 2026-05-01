@@ -41,7 +41,7 @@ I wanted to test the API layer, specifically creating a user via POST and valida
 
 After writing the automation vision section I realised I had described an agentic approach without actually demonstrating one in the project. So I went back and built it.
 
-Five specialist agents running in sequence: security, functional, compliance, UX, responsive. Each writes structured JSON findings. A sixth agent reads all outputs, deduplicates, assigns severity and bug IDs, and produces a dated report. The full pipeline is triggered with a single command.
+Five specialist agents running in parallel: security, functional, compliance, UX, responsive. Each writes structured JSON findings. A sixth agent reads all outputs, deduplicates, assigns severity and bug IDs, and produces a dated report. The full pipeline is triggered with a single command.
 
 It works. It also runs slowly, consumes a significant number of tokens, and does not run in CI. I had to stop it mid-execution during testing because it was hitting usage limits. The agents found the same issues already documented in the manual report, which confirmed the findings but did not produce anything new.
 

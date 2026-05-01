@@ -185,7 +185,7 @@ Custom Claude Code slash commands are available for this project:
 
 Following the initial manual and HOTL session, an automated multi-agent bug hunt pipeline was designed and built on top of the same tooling.
 
-The pipeline is triggered with a single slash command — `/bug-hunt` — and runs 5 specialist agents in sequence, each testing one dimension of the application:
+The pipeline is triggered with a single slash command — `/bug-hunt` — and runs 5 specialist agents in parallel, each testing one dimension of the application:
 
 | Agent | Responsibility |
 |---|---|

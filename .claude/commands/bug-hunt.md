@@ -7,9 +7,9 @@ You are the orchestrator of a multi-agent bug hunt against a trading account reg
 
 ## Your job
 
-Run 5 specialist agents in sequence. Each agent tests one dimension of the application and writes its findings to a JSON file. After all agents complete, run the report writer to produce the final report.
+Run 5 specialist agents in parallel. Each agent tests one dimension of the application and writes its findings to a JSON file. After all agents complete, run the report writer to produce the final report.
 
-Do not skip any agent. Do not move to the next agent until the current one has written its results file.
+The 5 specialist agents have no dependency on each other — spawn them all at once in a single message. Only the report writer depends on all 5 result files existing first.
 
 ---
 
@@ -18,17 +18,19 @@ Do not skip any agent. Do not move to the next agent until the current one has w
 ### Step 1 — Prepare
 Create `agents/results/` if it does not exist. Clear any JSON files from previous runs.
 
-### Step 2 — Run agents in order
+### Step 2 — Run all agents in parallel
 
-Spawn each agent using the Agent tool. Pass the full contents of the agent prompt file as the task. Each agent is responsible for writing its own results file.
+Spawn all 5 agents simultaneously by issuing all 5 Agent tool calls in a single message. Do not wait for one to finish before starting the next. Pass the full contents of each agent prompt file as the task.
 
-| Order | Agent prompt | Results file |
+| Agent | Prompt file | Results file |
 |---|---|---|
-| 1 | `agents/security.md` | `agents/results/security.json` |
-| 2 | `agents/functional.md` | `agents/results/functional.json` |
-| 3 | `agents/compliance.md` | `agents/results/compliance.json` |
-| 4 | `agents/ux.md` | `agents/results/ux.json` |
-| 5 | `agents/responsive.md` | `agents/results/responsive.json` |
+| Security | `agents/security.md` | `agents/results/security.json` |
+| Functional | `agents/functional.md` | `agents/results/functional.json` |
+| Compliance | `agents/compliance.md` | `agents/results/compliance.json` |
+| UX | `agents/ux.md` | `agents/results/ux.json` |
+| Responsive | `agents/responsive.md` | `agents/results/responsive.json` |
+
+Wait until all 5 result files exist before proceeding.
 
 ### Step 3 — Generate report
 After all 5 result files exist, spawn the report writer agent using `agents/report-writer.md` as the task.
@@ -39,4 +41,4 @@ Tell the user: how many findings each agent produced, the total finding count, a
 ---
 
 ## If an agent fails
-If an agent fails to write its results file, note the failure, write an empty results file with `{ "agent": "name", "findings": [] }`, and continue with the next agent. Do not abort the entire run.
+If an agent fails to write its results file, note the failure, write an empty results file with `{ "agent": "name", "findings": [] }`, and continue. Do not abort the entire run — the report writer can still synthesise whatever results exist.
