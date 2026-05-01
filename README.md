@@ -18,6 +18,7 @@ End-to-end test suite for a trading account registration form built with Playwri
 | Field validation | `field-validation.spec.ts` | Invalid and valid inputs for all form fields |
 | Security | `security.spec.ts` | Password value never exposed in browser console |
 | Navigation | `navigation.spec.ts` | Links resolve to correct URLs |
+| API layer | `api.spec.ts` | Frontend fires correct network requests with expected parameters |
 
 Each spec maps 1:1 to a Gherkin feature file in `features/`.
 
@@ -33,6 +34,7 @@ Compliance testing (EU/EEA blocking, FATF blacklist, country notices) is covered
 | TypeScript | 5.8 |
 | Node.js | 23 |
 | Faker.js | 9.7 |
+| ESLint | 9 |
 
 ---
 
@@ -45,7 +47,7 @@ Compliance testing (EU/EEA blocking, FATF blacklist, country notices) is covered
 npm install
 
 # Install Playwright browsers
-npx playwright install chromium
+npx playwright install chromium webkit
 ```
 
 **Environment:** tests run against the staging URL by default.
@@ -91,7 +93,7 @@ npm run test:report
 
 The suite runs automatically on every push and pull request via GitHub Actions (`.github/workflows/ci.yml`).
 
-The CI script is `npm run test:ci`, which runs the full suite excluding tests tagged `@known-bug` in their title. This keeps the pipeline green while known defects are tracked and documented — failing tests are not hidden, they are excluded intentionally and listed in the Known failing tests section below.
+The pipeline runs ESLint first, then the Playwright suite. The CI script is `npm run test:ci`, which runs the full suite excluding tests tagged `@known-bug` in their title. This keeps the pipeline green while known defects are tracked and documented — failing tests are not hidden, they are excluded intentionally and listed in the Known failing tests section below.
 
 The HTML report is uploaded as a GitHub Actions artifact after every run (pass or fail) and kept for 7 days.
 
@@ -100,8 +102,20 @@ The HTML report is uploaded as a GitHub Actions artifact after every run (pass o
 ## Project structure
 
 ```
-features/          Gherkin feature files — written before the specs
-tests/             Playwright spec files
+features/
+  00_smoke.feature
+  01_registration_happy_path.feature
+  02_field_validation.feature
+  04_security.feature
+  05_navigation.feature
+  06_api.feature
+tests/
+  smoke.spec.ts
+  happy-path.spec.ts
+  field-validation.spec.ts
+  security.spec.ts
+  navigation.spec.ts
+  api.spec.ts
 pages/
   BasePage.ts      Navigation base class
   RegisterPage.ts  All form interactions and locators
@@ -158,9 +172,7 @@ The following tests are expected to fail due to confirmed defects. They are tagg
 | `happy-path` | BUG-030 | T&C checkbox intercepts pointer events — form cannot be submitted |
 | `navigation` | BUG-031 | Country notice T&C link resolves to a placeholder image, not the legal document |
 | `security` | BUG-032 | Password value is logged to the browser console 3 times per input event |
-| `smoke` (mobile) | — | Duplicate `data-testid="Button"` in mobile DOM causes strict mode violation |
-
-All other tests pass reliably across Chromium and mobile Chrome.
+All other tests pass reliably across Chromium and iPad Pro 11.
 
 ---
 

@@ -58,6 +58,20 @@ export class RegisterPage extends BasePage {
     return this.page.getByTestId('individualTab').locator('input[type="radio"]');
   }
 
+  // The Corporate tab — no data-testid in DOM, targeted by visible text.
+  // Note: BUG-007 (16 alert dialogs) is triggered by "Open Demo Corporate Account"
+  // button inside the Corporate tab, not by clicking the tab itself.
+  get corporateTab(): Locator {
+    return this.page.getByText('Corporate', { exact: true });
+  }
+
+  // Clickable Individual tab wrapper — used to switch back to Individual.
+  // Distinct from individualTab getter which targets the hidden radio input
+  // for checked-state assertions only.
+  get individualTabLabel(): Locator {
+    return this.page.getByTestId('individualTab');
+  }
+
   // The main submit button (data-testid="Button", type="submit").
   // The mobile DOM contains a duplicate data-testid="Button" (type="button") which
   // causes strict mode violations when using getByTestId alone. Filtering by

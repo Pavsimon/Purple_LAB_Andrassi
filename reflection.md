@@ -17,7 +17,7 @@ Then I read the page. Not tested, read. Legal notices, entity names, country log
 
 ## Manual first, deliberately
 
-I tested the form myself before giving anything to AI. That was a decision, not an accident. The things manual testing finds that AI does not are specific: the Switzerland modal loop that fires 16 alert dialogs required a human to click through a specific country sequence and sit there while it happened. The Corporate tab silent failure needed someone to actually press the button and notice nothing occurred. The T&C link looking visually indistinguishable from plain text is a trust signal judgment, not a DOM attribute.
+I tested the form myself before giving anything to AI. That was a decision, not an accident. The things manual testing finds that AI does not are specific: the Corporate Demo button that fires 16 blocking alert dialogs over 30 seconds required a human to sit through it. The Switzerland modal infinite loop required selecting a specific country and noticing there was no way out. The Corporate tab Live button silent failure needed someone to actually press the button and notice nothing occurred. The T&C link looking visually indistinguishable from plain text is a trust signal judgment, not a DOM attribute.
 
 The numbers from the report tell the story cleanly. Human only: 9 bugs. AI only: 7. Both independently: 19. The overlap was the validation. The exclusive findings on each side were the argument for doing both.
 
@@ -35,7 +35,9 @@ I had no prior experience with Gherkin before this project. I studied it, wrote 
 
 The specs deliberately include failing tests. That was intentional. The T&C checkbox cannot be checked through normal user interaction, so the happy path test cannot complete. I tagged it `@known-bug`, documented the bug ID in the test, and left it failing. Submitting a test suite where known failures are hidden felt like the wrong demonstration. Submitting one where they are visible and explained felt like the right one.
 
-I wanted to test the API layer, specifically creating a user via POST and validating the response. I could not get through the form to trigger a submission, which made proper API integration testing impractical without mocking. I chose not to mock. The form is the system under test and mocking the submission would have been testing my mock, not the product.
+I wanted to test the API layer, specifically creating a user via POST and validating the response. I could not get through the form to trigger a submission, which made proper API integration testing impractical without mocking. I chose not to mock as the form is the system under test and mocking the submission would have been testing my mock, not the product.
+
+What I did find was a different API layer worth testing. The frontend fires a `checkCountry` request every time the user switches back to the Individual tab, not just on page load. By intercepting that request via Playwright's network layer and selecting a known country first, I could assert the correct country code and brand parameters without needing a form submission at all. That became `api.spec.ts` — not the test I originally planned, but a more interesting one.
 
 ## The pipeline I added at the end
 
@@ -66,6 +68,8 @@ The pattern across the whole project was: I consulted AI, I reviewed what came b
 I did not use anything I could not explain. That is not a philosophical position, it is a practical one. Code I cannot explain is code I cannot debug, defend, or extend. The point of the collaboration was to go faster while staying in control of the direction, not to hand over the wheel and see where it ended up.
 
 The things AI accelerated most: writing the structured prompt, scaffolding the test specs, building the agent pipeline. The things I had to own entirely: deciding what to test, why it mattered, what the compliance implications were, and what to do about bugs that might be environment issues rather than code defects. That split felt right.
+
+I also used GitHub Copilot for a code review pass on the spec files and page object. Some suggestions were good and applied — extracting error message strings into constants, using a named function for the console listener so it could be properly removed after the test. Others were rejected — removing the `expect` import because "it's not used standalone", masking the test password in the failure message while still printing the leaked output in full. Evaluating those suggestions required understanding what the code was actually doing. That's the part AI cannot do for you.
 
 I do not know what the next few months will look like for this kind of work. The tooling is changing fast enough that a specific workflow recommendation from six months ago is already partly obsolete. What I do know is that the engineers who understand how to work with agents, not just use them, will be in a better position than those who do not. I am somewhere in the middle of learning that myself. This project was part of that process.
 
