@@ -964,6 +964,32 @@ This section documents the parallel testing run: Pavel tested manually via brows
 
 ---
 
+## Coverage Summary
+
+| Feature area | Scenarios | Auto pass/total | Bugs | Worst severity | Tested by | Status |
+|---|---|---|---|---|---|---|
+| Initial state | 1 | 2/2 | 5 | High | H, A, E | 🔴 |
+| Registration | 1 | — | 2 | Critical | H, A, E | 🔴 |
+| Field validation | 35 | 68/68 | 3 | Critical | H, A, E | 🔴 |
+| Security | 1 | — | 3 | P0 | H, A, E | 🔴 |
+| Navigation | 2 | — | 6 | High | H, A, E | 🔴 |
+| API layer | 1 | 2/2 | 4 | Critical | H, A, E | 🔴 |
+| Compliance | — | — | 2 | High | H, A | 🔴 |
+| Localisation | — | — | 2 | Critical | H, A | 🔴 |
+
+Legend: 🟢 No bugs · 🟡 Medium/Low only · 🔴 Critical or High bug present
+
+Tested by: **A** = AI agents · **H** = Human manual · **E** = Automated E2E
+
+**Notes:**
+- Auto pass/total reflects CI run (`--grep-invert @known-bug`) across Chromium + iPad Pro 11 — 2 tests per scenario
+- Registration, Security, Navigation show `—` because all automated tests in those areas are tagged `@known-bug` and excluded from CI
+- Compliance and Localisation have no Gherkin feature file and no automated spec — covered by manual testing and AI agents only
+- Field validation: feature file has 35 scenarios; spec implements 34 (one password/no-number edge case in Gherkin not yet automated)
+- Bug total across all areas: 27 confirmed bugs (matches executive summary)
+
+---
+
 ## Testing Methodology Summary
 
 | Method | Coverage | Unique value |
